@@ -16,14 +16,18 @@ module.exports = {
       use: ['babel-loader']
     }, {
       test: /\.css$/,
-      loader: 'style-loader'
-    }, {
-        test: /\.css$/,
-        loader: 'style-loader',
+      use: [{
+        loader: 'style-loader'
+      }, {
+        loader: 'css-loader',
         options: {
-          modules: true,
+          sourceMap: true,
+          modules: {
+            localIdentName: '[name]__[local]___[hash:base64:5]'
+          }
         }
       }]
+    }]
   },
   plugins: [
     new HWP(

@@ -1,0 +1,18 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.container > div {
+  height: 100%;
+  width: 50%;
+}
+
+.container > div > div {
+  position: relative;
+}
+
+.mapContainer {
+  width: 50%;
+}
