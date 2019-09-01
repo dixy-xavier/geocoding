@@ -4,20 +4,33 @@
   "description": "React application that shows a map and markers on it. A user should be able to view, create, edit and delete this markers.",
   "main": "index.js",
   "scripts": {
-    "test": "npm start"
+    "start": "webpack-dev-server --mode development",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dixy-xavier/geocoding.git"
   },
-  "author": "“Dixy” <“jaun.dixy@razorthink.net”>",
+  "author": "“Dixy” <“dixyxavier@gmail.com”>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dixy-xavier/geocoding/issues"
   },
   "homepage": "https://github.com/dixy-xavier/geocoding#readme",
   "dependencies": {
+    "babel-loader": "^8.0.6",
+    "html-webpack-plugin": "^3.2.0",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "style-loader": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "css-loader": "^3.2.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.8.0"
   }
 }
