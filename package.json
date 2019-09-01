@@ -1,0 +1,19 @@
+{
+  "name": "geocoding",
+  "version": "1.0.0",
+  "description": "React application that shows a map and markers on it. A user should be able to view, create, edit and delete this markers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dixy-xavier/geocoding.git"
+  },
+  "author": "“Dixy” <“jaun.dixy@razorthink.net”>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dixy-xavier/geocoding/issues"
+  },
+  "homepage": "https://github.com/dixy-xavier/geocoding#readme"
+}
