@@ -4,14 +4,14 @@
   display: flex;
 }
 
-.container > div {
+.container > div:first-child {
   height: 100%;
   width: 50%;
 }
 
-.container > div > div {
+/*.container > div > div {
   position: relative;
-}
+}*/
 
 .mapContainer {
   width: 50%;

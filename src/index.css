@@ -9,3 +9,11 @@ body {
 body > div {
   height: 100%;
 }
+
+input {
+  outline: none;
+}
+
+button {
+  outline: none;
+}
