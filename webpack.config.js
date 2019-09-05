@@ -37,4 +37,9 @@ module.exports = {
       },
     ),
   ],
+  devServer: {
+    proxy: {
+      '/v1': 'http://localhost:3000'
+    }
+  }
 };

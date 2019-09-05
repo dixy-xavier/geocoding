@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { GET_GOOGLE_LOCATION } from '../../constants/urls';
-import { replaceParams, request } from '../../utils/utils';
+import { MARKERS } from '../../constants/urls';
+import { callGAPI, generateKey, request } from '../../utils/utils';
 import Dialog from '../Dialog/Dialog';
 import EditContainer from '../EditContainer/EditContainer';
 import MapContainer from '../MapContainer/MapContainer';
@@ -17,22 +17,29 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    request(MARKERS).then(data => this.setState({ markers: data }));
+  }
+
   toggleDialog = (show, data) => this.setState({ showDialog: show, dialogData: data });
 
   addMarker = ({ latitude, longitude }) => {
     if (isNaN(latitude) || isNaN(longitude)) {
       this.setState({ error: 'Not a valid latitude/longitude' })
     } else {
-      request(replaceParams(GET_GOOGLE_LOCATION, { latlng: `${latitude},${longitude}`, key: this.props.apiKey })).then(data => {
+      callGAPI({ latitude, longitude, key: this.props.apiKey }).then(data => {
         if (data.status === 'OK') {
-          const markers = [...this.state.markers];
-          markers.push({
-            id: Math.random(),
+          const body = {
+            guid: generateKey(),
             title: data?.results?.[0]?.formatted_address,
             latitude: data?.results?.[0]?.geometry?.location.lat,
             longitude: data?.results?.[0]?.geometry?.location.lng,
+          };
+          request(MARKERS, { method: 'POST', body: JSON.stringify(body) }).then(() => {
+            const markers = [...this.state.markers];
+            markers.push(body);
+            this.setState({ markers, showDialog: false });
           });
-          this.setState({ markers, showDialog: false });
         } else this.setState({ error: 'Not a valid latitude/longitude' })
       });
     }

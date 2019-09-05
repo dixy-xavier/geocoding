@@ -6,11 +6,14 @@ import styles from './EditContainer.css';
 const EditContainer = ({ toggleDialog, markers, deleteMarker }) => (
   <div className={styles.editContainer}>
     <Button onClick={() => toggleDialog(true)}>Add Marker</Button>
-    <Locations
-      toggleDialog={toggleDialog}
-      locations={markers}
-      deleteMarker={deleteMarker}
-    />
+    {markers.length ? (
+      <Locations
+        toggleDialog={toggleDialog}
+        locations={markers}
+        deleteMarker={deleteMarker}
+      />
+    ) : <div>No markers available</div>
+    }
   </div>
 );
 
