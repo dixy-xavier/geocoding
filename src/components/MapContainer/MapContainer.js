@@ -7,6 +7,7 @@ const mapStyles = {
 
 class MapContainer extends Component {
   render() {
+    const { markers } = this.props;
     return (
       <Map
         google={this.props.google}
@@ -14,13 +15,16 @@ class MapContainer extends Component {
         style={mapStyles}
         initialCenter={{ lat: 52.5200, lng: 13.4050 }}
       >
-        <Marker position={{ lat: 51.3396955, lng: 12.3730747 }} />
-        <Marker position={{ lat: 52.5074434, lng: 13.3903913 }} />
+        {markers.map(({ latitude, longitude }) => (
+          <Marker key={latitude + longitude} position={{ lat: latitude, lng: longitude }} />
+        ))}
       </Map>
     );
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: 'AIzaSyAUB5Pef5kA8lgUPrkqwC-frxyxZpKa_wY',
-})(MapContainer);
+export default GoogleApiWrapper(
+  (props) => ({
+      apiKey: props.apiKey
+  })
+)(MapContainer);
