@@ -1,5 +1,5 @@
 .button {
-  background-color: #0178f7;
+  background-color: var(--accent);;
   height: 40px;
   width: fit-content;
   padding: 0 20px;

@@ -12,7 +12,7 @@ const ActionButtons = ({ toggleDialog, data, deleteMarker }) => (
 
 const Location = ({ location, toggleDialog, deleteMarker }) => (
   <div className={styles.location}>
-    <h2 className={classNames(styles.locationTitle, styles.ellipsis)} title={location.title}>{location.title}</h2>
+    <h3 className={classNames(styles.locationTitle, styles.ellipsis)} title={location.title}>{location.title}</h3>
     <div className={classNames(styles.locationDetails, styles.ellipsis)} title={location.title}>{location.title}</div>
     <div className={classNames(styles.locationDetails, styles.ellipsis)} title={location.latitude}>{`Latitude: ${location.latitude}`}</div>
     <div className={classNames(styles.locationDetails, styles.ellipsis)} title={location.longitude}>{`Longitude: ${location.longitude}`}</div>

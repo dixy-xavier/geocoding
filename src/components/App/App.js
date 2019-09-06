@@ -75,7 +75,9 @@ class App extends Component {
     const { apiKey } = this.props;
     return (
       <div className={styles.container}>
-        <MapContainer apiKey={apiKey} markers={markers} />
+        <div className={styles.mapContainer}>
+          <MapContainer apiKey={apiKey} markers={markers} />
+        </div>
         <EditContainer toggleDialog={this.toggleDialog} markers={markers} deleteMarker={this.deleteMarker} />
         {showDialog && (
           <Dialog

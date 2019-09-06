@@ -1,3 +1,7 @@
+:root {
+  --accent: #007bff;
+}
+
 body {
   height: 100vh;
   width: 100vw;

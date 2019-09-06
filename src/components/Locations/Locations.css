@@ -14,7 +14,9 @@
 }
 
 .locationTitle {
-  color: #0178f7;
+  color: var(--accent);
+  font-size: 23px;
+  font-weight: 400;
 }
 
 .locationDetails {

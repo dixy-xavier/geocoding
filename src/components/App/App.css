@@ -1,18 +1,11 @@
 .container {
   height: 100%;
   width: 100%;
-  display: flex;
+  display: inline-flex;
 }
-
-.container > div:first-child {
-  height: 100%;
-  width: 50%;
-}
-
-/*.container > div > div {
-  position: relative;
-}*/
 
 .mapContainer {
+  position: relative;
+  height: 100%;
   width: 50%;
 }
