@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { MARKERS } from '../../constants/urls';
-import { callGAPI, generateKey, request } from '../../utils/utils';
+import { ACTION_ON_MARKER, MARKERS } from '../../constants/urls';
+import { callGAPI, generateKey, replaceParams, request } from '../../utils/utils';
 import Dialog from '../Dialog/Dialog';
 import EditContainer from '../EditContainer/EditContainer';
 import MapContainer from '../MapContainer/MapContainer';
@@ -13,7 +13,8 @@ class App extends Component {
     this.state = {
       showDialog: false,
       markers: [],
-      error: ''
+      error: '',
+      dialogData: {}
     }
   }
 
@@ -23,33 +24,50 @@ class App extends Component {
 
   toggleDialog = (show, data) => this.setState({ showDialog: show, dialogData: data });
 
-  addMarker = ({ latitude, longitude }) => {
-    if (isNaN(latitude) || isNaN(longitude)) {
-      this.setState({ error: 'Not a valid latitude/longitude' })
+  showToast = () => {
+    this.setState({ error: 'Not a valid latitude/longitude' });
+    setTimeout(() => this.setState({ error: '' }), 3000);
+  };
+
+  addMarker = ({ latitude, longitude, id, guid }) => {
+    if (!latitude || !longitude || isNaN(latitude) || isNaN(longitude)) {
+      this.showToast();
     } else {
+      const isEdit = !!id;
       callGAPI({ latitude, longitude, key: this.props.apiKey }).then(data => {
         if (data.status === 'OK') {
           const body = {
-            guid: generateKey(),
+            guid: isEdit ? guid : generateKey(),
             title: data?.results?.[0]?.formatted_address,
             latitude: data?.results?.[0]?.geometry?.location.lat,
             longitude: data?.results?.[0]?.geometry?.location.lng,
           };
-          request(MARKERS, { method: 'POST', body: JSON.stringify(body) }).then(() => {
-            const markers = [...this.state.markers];
-            markers.push(body);
-            this.setState({ markers, showDialog: false });
-          });
-        } else this.setState({ error: 'Not a valid latitude/longitude' })
+          if (isEdit) {
+            request(replaceParams(ACTION_ON_MARKER, { id }), { method: 'PUT', body: JSON.stringify(body) }).then(data => {
+              const markers = [...this.state.markers];
+              const index = markers.findIndex(marker => marker.id === id);
+              markers.splice(index, 1, data);
+              this.setState({ markers, showDialog: false, dialogData: {} });
+            });
+          } else {
+            request(MARKERS, { method: 'POST', body: JSON.stringify(body) }).then(data => {
+              const markers = [...this.state.markers];
+              markers.push(data);
+              this.setState({ markers, showDialog: false, dialogData: {} });
+            });
+          }
+        } else this.showToast();
       });
     }
   };
 
   deleteMarker = id => {
-    const markers = [...this.state.markers];
-    const index = markers.findIndex(marker => marker.id === id);
-    markers.splice(index, 1);
-    this.setState({ markers });
+    request(replaceParams(ACTION_ON_MARKER, { id }), { method: 'DELETE' }).then(() => {
+      const markers = [...this.state.markers];
+      const index = markers.findIndex(marker => marker.id === id);
+      markers.splice(index, 1);
+      this.setState({ markers });
+    });
   };
 
   render() {
@@ -57,8 +75,7 @@ class App extends Component {
     const { apiKey } = this.props;
     return (
       <div className={styles.container}>
-        {!!error && <Toast error={error} />}
-        {/*<MapContainer apiKey={apiKey} markers={markers} />*/}
+        <MapContainer apiKey={apiKey} markers={markers} />
         <EditContainer toggleDialog={this.toggleDialog} markers={markers} deleteMarker={this.deleteMarker} />
         {showDialog && (
           <Dialog
@@ -67,6 +84,7 @@ class App extends Component {
             addMarker={this.addMarker}
           />
         )}
+        {!!error && <Toast error={error} />}
       </div>
     );
   }

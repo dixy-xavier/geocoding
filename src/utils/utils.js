@@ -5,15 +5,19 @@
 import { GET_GOOGLE_LOCATION } from '../constants/urls';
 
 export const request = async (url, method = { method: 'GET' }) => {
-  const config = {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    ...method
-  };
-  const response = await fetch(url, { ...config });
-  return await response.json();
+  try {
+    const config = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      ...method
+    };
+    const response = await fetch(url, config);
+    return await response.json();
+  } catch (e) {
+    return await new Promise(() => 'Error');
+  }
 };
 
 /**
